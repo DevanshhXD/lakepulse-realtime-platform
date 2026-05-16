@@ -1,0 +1,24 @@
+version: '3.9'
+
+services:
+
+  kafka-producer:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.producer
+
+    container_name: lakepulse-kafka-producer
+
+  spark-streaming:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.spark
+
+    container_name: lakepulse-spark-streaming
+
+  airflow:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.airflow
+
+    container_name: lakepulse-airflow
