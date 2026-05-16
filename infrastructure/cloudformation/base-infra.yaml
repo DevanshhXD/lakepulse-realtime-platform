@@ -1,0 +1,76 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: LakePulse Core Infrastructure Stack
+
+Resources:
+
+  LakePulseRawIngestionBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: lakepulse-raw-ingestion-dev
+      VersioningConfiguration:
+        Status: Enabled
+
+  LakePulseProcessedDataBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: lakepulse-processed-data-dev
+      VersioningConfiguration:
+        Status: Enabled
+
+  LakePulseAthenaQueryBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: lakepulse-athena-query-results-dev
+      VersioningConfiguration:
+        Status: Enabled
+
+  LakePulseStreamingLogsBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: lakepulse-streaming-logs-dev
+      VersioningConfiguration:
+        Status: Enabled
+
+  LakePulseEC2StreamingRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: lakepulse-ec2-streaming-role-dev
+
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonS3FullAccess
+        - arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy
+
+  LakePulseEC2InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      InstanceProfileName: lakepulse-ec2-instance-profile-dev
+      Roles:
+        - !Ref LakePulseEC2StreamingRole
+
+Outputs:
+
+  RawIngestionBucketName:
+    Description: Raw streaming ingestion bucket
+    Value: !Ref LakePulseRawIngestionBucket
+
+  ProcessedDataBucketName:
+    Description: Processed analytics data bucket
+    Value: !Ref LakePulseProcessedDataBucket
+
+  AthenaQueryResultsBucketName:
+    Description: Athena query results bucket
+    Value: !Ref LakePulseAthenaQueryBucket
+
+  StreamingLogsBucketName:
+    Description: Streaming application logs bucket
+    Value: !Ref LakePulseStreamingLogsBucket
