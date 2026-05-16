@@ -1,11 +1,9 @@
 FROM apache/airflow:3.2.1
 
-USER root
+USER airflow
 
 COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
-
-USER airflow
 
 COPY airflow /opt/airflow/dags
