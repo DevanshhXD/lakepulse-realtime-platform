@@ -1,0 +1,60 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: LakePulse Compute and Security Infrastructure
+
+Resources:
+
+  LakePulseStreamingSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for Kafka and Spark streaming workloads
+      VpcId:
+        Fn::ImportValue: LakePulseVPCID
+
+      SecurityGroupIngress:
+
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+
+        - IpProtocol: tcp
+          FromPort: 9092
+          ToPort: 9092
+          CidrIp: 10.0.0.0/16
+
+        - IpProtocol: tcp
+          FromPort: 7077
+          ToPort: 7077
+          CidrIp: 10.0.0.0/16
+
+        - IpProtocol: tcp
+          FromPort: 8080
+          ToPort: 8081
+          CidrIp: 10.0.0.0/16
+
+      Tags:
+        - Key: Name
+          Value: lp-streaming-sg-use1
+
+  LakePulseAirflowSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Security group for Airflow services
+      VpcId:
+        Fn::ImportValue: LakePulseVPCID
+
+      SecurityGroupIngress:
+
+        - IpProtocol: tcp
+          FromPort: 8080
+          ToPort: 8080
+          CidrIp: 0.0.0.0/0
+
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+
+      Tags:
+        - Key: Name
+          Value: lp-airflow-sg-use1

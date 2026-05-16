@@ -1,0 +1,99 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: LakePulse Networking Infrastructure Stack
+
+Resources:
+
+  LakePulseVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+
+      Tags:
+        - Key: Name
+          Value: lp-core-vpc-use1
+
+  LakePulseInternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+
+      Tags:
+        - Key: Name
+          Value: lp-core-igw-use1
+
+  LakePulseAttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref LakePulseVPC
+      InternetGatewayId: !Ref LakePulseInternetGateway
+
+  LakePulsePublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref LakePulseVPC
+      CidrBlock: 10.0.1.0/24
+      MapPublicIpOnLaunch: true
+      AvailabilityZone: !Select [0, !GetAZs '']
+
+      Tags:
+        - Key: Name
+          Value: lp-public-sn-use1a
+
+  LakePulsePrivateSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref LakePulseVPC
+      CidrBlock: 10.0.2.0/24
+      AvailabilityZone: !Select [0, !GetAZs '']
+
+      Tags:
+        - Key: Name
+          Value: lp-private-sn-use1a
+
+  LakePulsePublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref LakePulseVPC
+
+      Tags:
+        - Key: Name
+          Value: lp-public-rt-use1
+
+  LakePulsePublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: LakePulseAttachGateway
+
+    Properties:
+      RouteTableId: !Ref LakePulsePublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref LakePulseInternetGateway
+
+  LakePulsePublicSubnetAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref LakePulsePublicSubnet
+      RouteTableId: !Ref LakePulsePublicRouteTable
+
+Outputs:
+
+  VPCId:
+    Description: Core VPC ID
+    Value: !Ref LakePulseVPC
+
+    Export:
+      Name: LakePulseVPCID
+
+  PublicSubnetId:
+    Description: Public subnet ID
+    Value: !Ref LakePulsePublicSubnet
+
+    Export:
+      Name: LakePulsePublicSubnetID
+
+  PrivateSubnetId:
+    Description: Private subnet ID
+    Value: !Ref LakePulsePrivateSubnet
+
+    Export:
+      Name: LakePulsePrivateSubnetID

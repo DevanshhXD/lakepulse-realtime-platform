@@ -1,0 +1,27 @@
+{
+  "event_name": "driver_status",
+  "version": "1.0",
+
+  "fields": [
+    {
+      "name": "driver_id",
+      "type": "string"
+    },
+    {
+      "name": "status",
+      "type": "string"
+    },
+    {
+      "name": "current_latitude",
+      "type": "double"
+    },
+    {
+      "name": "current_longitude",
+      "type": "double"
+    },
+    {
+      "name": "event_timestamp",
+      "type": "timestamp"
+    }
+  ]
+}

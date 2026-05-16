@@ -1,0 +1,60 @@
+{
+  "event_name": "ride_event",
+  "version": "1.0",
+  "description": "Schema for real-time ride booking events",
+
+  "fields": [
+    {
+      "name": "ride_id",
+      "type": "string"
+    },
+    {
+      "name": "driver_id",
+      "type": "string"
+    },
+    {
+      "name": "rider_id",
+      "type": "string"
+    },
+    {
+      "name": "pickup_location",
+      "type": "struct",
+      "fields": [
+        {
+          "name": "latitude",
+          "type": "double"
+        },
+        {
+          "name": "longitude",
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "name": "dropoff_location",
+      "type": "struct",
+      "fields": [
+        {
+          "name": "latitude",
+          "type": "double"
+        },
+        {
+          "name": "longitude",
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "name": "ride_status",
+      "type": "string"
+    },
+    {
+      "name": "fare_amount",
+      "type": "double"
+    },
+    {
+      "name": "event_timestamp",
+      "type": "timestamp"
+    }
+  ]
+}

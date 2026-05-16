@@ -1,0 +1,31 @@
+{
+  "event_name": "payment_event",
+  "version": "1.0",
+
+  "fields": [
+    {
+      "name": "payment_id",
+      "type": "string"
+    },
+    {
+      "name": "ride_id",
+      "type": "string"
+    },
+    {
+      "name": "payment_method",
+      "type": "string"
+    },
+    {
+      "name": "payment_status",
+      "type": "string"
+    },
+    {
+      "name": "amount",
+      "type": "double"
+    },
+    {
+      "name": "event_timestamp",
+      "type": "timestamp"
+    }
+  ]
+}
