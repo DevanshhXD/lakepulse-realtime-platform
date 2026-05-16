@@ -1,0 +1,21 @@
+topics:
+
+  - name: ride-events
+    partitions: 12
+    replication_factor: 2
+    retention_hours: 168
+
+  - name: driver-status
+    partitions: 6
+    replication_factor: 2
+    retention_hours: 72
+
+  - name: payment-events
+    partitions: 6
+    replication_factor: 2
+    retention_hours: 168
+
+  - name: dead-letter-queue
+    partitions: 3
+    replication_factor: 2
+    retention_hours: 336
