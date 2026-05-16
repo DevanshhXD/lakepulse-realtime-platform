@@ -35,10 +35,11 @@ The platform processes high volume streaming data using Kafka, Spark Structured 
 
 # Streaming Scale
 
-|      Metric      |     Value    |
- Events per second       500+ 
- Daily event capacity  Millions 
- Streaming mode        Real-time 
+| Metric | Value |
+|---|---|
+| Events per second | 500+ |
+| Daily event capacity | Millions |
+| Streaming mode | Real-time |
 
 # Project Structure
 
